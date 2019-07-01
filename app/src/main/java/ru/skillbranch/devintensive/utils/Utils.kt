@@ -9,4 +9,27 @@ object Utils {
         return firstName to lastName
 
     }
+
+    fun transliteration(payload: String, divider:String = " "): String {
+        return "LOL"
+
+    }
+
+    fun toInitials(firstName: String?, lastName: String?): String? {
+        val result:String?
+        if (firstName.isNullOrBlank()&&lastName.isNullOrBlank()){
+            result = null
+        }
+        else if (!firstName.isNullOrBlank()&&lastName.isNullOrBlank()){
+            result = "${firstName[0].toUpperCase()}"
+        }
+        else if (firstName.isNullOrBlank()&&!lastName.isNullOrBlank()){
+            result = "${lastName[0].toUpperCase()}"
+        }
+        else result = "${firstName?.get(0)?.toUpperCase()}${lastName?.get(0)?.toUpperCase()}"
+
+
+        return result
+
+    }
 }

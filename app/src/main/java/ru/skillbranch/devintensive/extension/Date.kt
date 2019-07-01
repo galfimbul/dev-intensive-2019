@@ -25,6 +25,10 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND) :Date{
     this.time = time
     return this
 }
+fun Date.humanizeDiff(date: Date = Date()): String {
+    return "two days ago"
+
+}
 enum class TimeUnits{
     SECOND,
     MINUTE,
