@@ -78,5 +78,53 @@ enum class TimeUnits{
     SECOND,
     MINUTE,
     HOUR,
-    DAY
+    DAY;
+    fun plural(value: Int):String{
+        when(this){
+            SECOND -> when(value%10){
+                1->return "$value секунду"
+                2,3,4->return "$value секунды"
+                else->return "$value секунд"
+            }
+            MINUTE -> when(value%10){
+                1->return "$value минуту"
+                2,3,4->return "$value минуты"
+                else->return "$value минут"
+            }
+            HOUR -> when(value%10){
+                1->return "$value час"
+                2,3,4->return "$value часа"
+                else->return "$value часов"
+            }
+            DAY -> when(value%10){
+                1->return "$value день"
+                2,3,4->return "$value дня"
+                else->return "$value дней"
+            }
+        }
+    }
+}
+fun TimeUnits.plural(value: Int):String{
+    when(this){
+        TimeUnits.SECOND -> when(value%10){
+            1->return "$value секунду"
+            2,3,4->return "$value секунды"
+            else->return "$value секунд"
+        }
+        TimeUnits.MINUTE -> when(value%10){
+            1->return "$value минуту"
+            2,3,4->return "$value минуты"
+            else->return "$value минут"
+        }
+        TimeUnits.HOUR -> when(value%10){
+            1->return "$value час"
+            2,3,4->return "$value часа"
+            else->return "$value часов"
+        }
+        TimeUnits.DAY -> when(value%10){
+            1->return "$value день"
+            2,3,4->return "$value дня"
+            else->return "$value дней"
+        }
+    }
 }
