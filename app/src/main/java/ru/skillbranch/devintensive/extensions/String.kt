@@ -5,11 +5,13 @@ package ru.skillbranch.devintensive.extensions
  */
 
 fun String.truncate(value:Int=16):String{
-    var result = this.substring(0,value+1)
-    if (result[result.length-1].isWhitespace())
-    return result.trim()
-    else
-    return "$result..."
+    if(this.length-1<=value)
+        return this
+    val result = this.trimStart().substring(0,value+1)
+    if (result[result.length-1].isWhitespace()){
+        return result.trim()}
+        else return ("$result...")
+
 }
 
-fun String.stripHtml() = this.replace(Regex("<[^<]*?>|&\\d+;"), "").replace(Regex("\\s+"), " ")
+fun String.stripHtml() = this.replace(Regex("<[^<]*?>|&#\\d+;|&\\w+;"), "").replace(Regex(" +"), " ")
