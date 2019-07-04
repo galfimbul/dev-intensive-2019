@@ -10,7 +10,10 @@ fun String.truncate(value:Int=16):String{
     val result = this.trimStart().substring(0,value+1)
     if (result[result.length-1].isWhitespace()){
         return result.trim()}
-        else return ("$result...")
+    if(value+2<=this.length-1&&this.trimStart()[value+2].isWhitespace()){
+        return result
+    }
+    else return "$result..."
 
 }
 
