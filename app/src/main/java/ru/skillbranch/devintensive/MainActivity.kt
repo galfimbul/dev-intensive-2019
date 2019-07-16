@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -15,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.models.Bender
 
-class MainActivity : AppCompatActivity(), View.OnClickListener{
+class MainActivity : AppCompatActivity(), View.OnClickListener,TextView.OnEditorActionListener{
 
     lateinit var benderImage: ImageView
     lateinit var textTxt: TextView
@@ -53,7 +54,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
-        messageEt.setOnEditorActionListener{ v, actionId, event ->
+        messageEt.setOnEditorActionListener(this)
+        /*messageEt.setOnEditorActionListener{ v, actionId, event ->
             when(actionId){
             EditorInfo.IME_ACTION_DONE ->{
                 onClick(v)
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
             }
             else -> false
         }
-        }
+        }*/
 
     }
 
@@ -167,12 +169,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         Log.d("M_MainActivity","onSaveInstanceState${benderObj.status.name} ${benderObj.question.name}")
     }
     override fun onClick(v: View?) {
-        if(v?.id == R.id.iv_send ||v?.id == R.id.et_message){
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
-            messageEt.setText("")
-            val (r,g,b) = color
-            benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
-            textTxt.text = phrase
+        if(v?.id == R.id.iv_send ){
+            setBender()
         }
+    }
+    fun setBender(){
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+        messageEt.setText("")
+        val (r,g,b) = color
+        benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
+        textTxt.text = phrase
+    }
+
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if(v?.id == R.id.et_message){
+            setBender()
+        }
+        return false
     }
 }
