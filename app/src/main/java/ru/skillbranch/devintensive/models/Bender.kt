@@ -20,8 +20,13 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         if (validate!=null){
             return "$validate\n${question.question}" to status.color
         }
+        if(question == Question.IDLE){
+            question = question.nextQuestion()
+            return "На этом все, вопросов больше нет" to status.color}
+            else{
         if(question.answers.contains(answer.toLowerCase())){
             if(question == Question.IDLE){
+                question = question.nextQuestion()
                 return "На этом все, вопросов больше нет" to status.color
             }else{
                 question = question.nextQuestion()
@@ -37,7 +42,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 status = status.nextStatus()
                 return "Это неправильный ответ\n${question.question}" to status.color
             }
-        }
+        }}
 
     }
 
@@ -105,7 +110,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
             override fun nextQuestion(): Question = IDLE
         },
         IDLE("На этом все, вопросов больше нет", listOf()){
-            override fun validation(answer: String): String? = ""
+            override fun validation(answer: String): String? = null
 
             override fun nextQuestion(): Question = IDLE
         };
