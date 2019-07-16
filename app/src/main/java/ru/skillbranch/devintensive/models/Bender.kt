@@ -65,7 +65,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun validation(answer: String): String? {
-                if (!answer[0].isUpperCase())
+                if (answer.isEmpty()||!answer[0].isUpperCase())
                     return "Имя должно начинаться с заглавной буквы"
                 else return null
             }
@@ -75,7 +75,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")){
             override fun validation(answer: String): String? {
-                if(!answer[0].isLowerCase())
+                if(answer.isEmpty()||!answer[0].isLowerCase())
                     return "Профессия должна начинаться со строчной буквы"
                 else
                     return null
@@ -85,7 +85,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         },
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")){
             override fun validation(answer: String): String? {
-                if (answer.contains(Regex("\\d")))
+                if (answer.isEmpty()||answer.contains(Regex("\\d")))
                     return "Материал не должен содержать цифр"
                 else return null
             }
@@ -94,7 +94,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         },
         BDAY("Когда меня создали?", listOf("2993")){
             override fun validation(answer: String): String? {
-                if(answer.contains(Regex("\\D")))
+                if(answer.isEmpty()||answer.contains(Regex("\\D")))
                     return "Год моего рождения должен содержать только цифры"
                 else return null
             }
@@ -103,7 +103,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         },
         SERIAL("Мой серийный номер?", listOf("2716057")){
             override fun validation(answer: String): String? {
-                if (!answer.contains(Regex("\\d{7}")))
+                if (answer.isEmpty()||!answer.contains(Regex("\\d{7}")))
                     return "Серийный номер содержит только цифры, и их 7"
                 else return null
             }
