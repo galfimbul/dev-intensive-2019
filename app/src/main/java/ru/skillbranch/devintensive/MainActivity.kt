@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     lateinit var benderImage: ImageView
     lateinit var textTxt: TextView
-    lateinit var messageET: EditText
+    lateinit var messageEt: EditText
     lateinit var sendBtn: ImageView
     lateinit var benderObj: Bender
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         //benderImage = findViewById(R.id.iv_bender)
         benderImage = iv_bender
         textTxt = tv_text
-        messageET = et_message
+        messageEt = et_message
         sendBtn = iv_send
 
         val status = savedInstanceState?.getString("STATUS") ?: Bender.Status.NORMAL.name
@@ -53,15 +53,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
-        /*messageET.setOnEditorActionListener{ v, actionId, event ->
+        messageEt.setOnEditorActionListener{ v, actionId, event ->
             when(actionId){
             EditorInfo.IME_ACTION_DONE ->{
-                //sendData()
-                true
+                onClick(v)
+                false
             }
             else -> false
         }
-        }*/
+        }
 
     }
 
@@ -167,15 +167,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         Log.d("M_MainActivity","onSaveInstanceState${benderObj.status.name} ${benderObj.question.name}")
     }
     override fun onClick(v: View?) {
-        if(v?.id == R.id.iv_send){
-            sendData()
+        if(v?.id == R.id.iv_send ||v?.id == R.id.et_message){
+            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+            messageEt.setText("")
+            val (r,g,b) = color
+            benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
+            textTxt.text = phrase
         }
-    }
-    fun sendData(){
-        val (phrase, color) = benderObj.listenAnswer(messageET.text.toString().toLowerCase())
-        messageET.setText("")
-        val (r,g,b) = color
-        benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
-        textTxt.text = phrase
     }
 }
