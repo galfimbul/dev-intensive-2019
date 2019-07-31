@@ -34,23 +34,19 @@ class CircleImageView @JvmOverloads constructor(
         }
     }
 
+
+    val paintBorder = Paint(Paint.ANTI_ALIAS_FLAG)
+    val paintBitmap = Paint(Paint.ANTI_ALIAS_FLAG)
+    val bitmap = Bitmap.createBitmap(Utils.convertDpToPixels(150),Utils.convertDpToPixels(150),Bitmap.Config.ARGB_8888)
     override fun onDraw(canvas: Canvas) {
-        val halfWidth = layoutParams.height/2
-        var radius = halfWidth
-        val bitmap = Bitmap.createBitmap(halfWidth,halfWidth,Bitmap.Config.ARGB_8888)
-        val paint = Paint()
-        paint.also {
-            it.color = borderColor
-            it.style = Paint.Style.STROKE
-            it.strokeWidth = borderWidth.toFloat()
-            it.isAntiAlias = true
-            it.isDither = true
-        }
-        canvas.drawBitmap(bitmap,0F,0F,null)
-        canvas.drawCircle(halfWidth.toFloat(),halfWidth.toFloat(),radius.toFloat()-borderWidth,paint)
-        super.onDraw(canvas)
-
-
+        paintBorder.color = Color.GREEN
+        paintBorder.style = Paint.Style.STROKE
+        paintBorder.strokeWidth = 10F
+        paintBitmap.color = Color.WHITE
+        paintBitmap.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC)
+        paintBorder.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawRect(Rect(350,310,90,90),paintBitmap)
+        canvas.drawCircle(240F,240F,60F,paintBorder)
     }
 
     private fun createSimpleAvatar(canvas: Canvas,width:Int,height:Int) {
