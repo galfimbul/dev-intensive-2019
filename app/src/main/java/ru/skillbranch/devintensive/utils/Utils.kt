@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.res.Resources
+
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
         val parts: List<String>? = fullName?.trimStart()?.trim()?.split(" ")
@@ -80,5 +82,12 @@ object Utils {
 
         return result
 
+    }
+    fun convertDpToPixels(dp:Int):Int{
+        return dp*Resources.getSystem().displayMetrics.density.toInt()
+    }
+
+    fun convertPixelsToDp(pixels:Int):Int{
+        return pixels/Resources.getSystem().displayMetrics.density.toInt()
     }
 }
