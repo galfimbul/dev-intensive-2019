@@ -51,21 +51,24 @@ object Utils {
             "ю" to "yu",
             "я" to "ya"
         )
+        if (payload.trim().isNullOrEmpty()) return ""
+        else {
 
-        for (symbol in 0..payload.length - 1) {
-            if ("${payload[symbol]}" in translit) {
-                result.append(translit.get("${payload[symbol]}"))
-            } else if ("${payload[symbol].toLowerCase()}" in translit) {
-                result.append(translit.get("${payload[symbol].toLowerCase()}")?.capitalize())
-            } else if (!translit.containsValue("${payload[symbol].toLowerCase()}")) {
-                result.append(divider)
-            } else if (translit.containsValue("${payload[symbol].toLowerCase()}")) {
-                result.append("${payload[symbol]}")
+            for (symbol in 0..payload.length - 1) {
+                if ("${payload[symbol]}" in translit) {
+                    result.append(translit.get("${payload[symbol]}"))
+                } else if ("${payload[symbol].toLowerCase()}" in translit) {
+                    result.append(translit.get("${payload[symbol].toLowerCase()}")?.capitalize())
+                } else if (!translit.containsValue("${payload[symbol].toLowerCase()}")) {
+                    result.append(divider)
+                } else if (translit.containsValue("${payload[symbol].toLowerCase()}")) {
+                    result.append("${payload[symbol]}")
+                }
+
             }
 
+            return result.toString()
         }
-
-        return result.toString()
 
     }
 
