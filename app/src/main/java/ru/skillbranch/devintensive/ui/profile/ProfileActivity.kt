@@ -1,9 +1,12 @@
 package ru.skillbranch.devintensive.ui.profile
 
+import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -14,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -24,6 +28,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewModel: ProfileViewModel
     var isEditMode = false
     lateinit var viewFields: Map<String, TextView>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -52,6 +57,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+        // TODO update repo error
     }
 
     private fun updateTheme(mode: Int) {
@@ -65,6 +71,7 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
+        updateAvatar(profile)
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -91,6 +98,18 @@ class ProfileActivity : AppCompatActivity() {
         btn_switch_theme.setOnClickListener {
             viewModel.switchTheme()
         }
+        et_repository.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s!!.isEmpty())
+                    else
+                if (!s!!.matches(Regex("^(https:\\/\\/)?(www\\.)?(github\\.com\\/)(?!(${getRegexExceptions()})(?=\\/|\$))[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}(\\/)?\$"))){
+                 wr_repository.error = "Невалидный адрес репозитория"}
+            }
+        })
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -120,7 +139,6 @@ class ProfileActivity : AppCompatActivity() {
             } else {
                 resources.getDrawable(R.drawable.ic_edit_black_24dp,theme)
             }
-
             background.colorFilter = filter
             setImageDrawable(icon)
         }
@@ -135,5 +153,16 @@ class ProfileActivity : AppCompatActivity() {
         ).apply {
             viewModel.saveProfileData(this)
         }
+    }
+    private fun updateAvatar(profile: Profile){
+        val initials = Utils.toInitials(profile.firstName, profile.lastName)
+        iv_avatar.createAvatar(initials, Utils.convertSpToPx(this, 48), theme)
+    }
+    private fun getRegexExceptions(): String {
+        val exceptions = arrayOf(
+            "enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing",
+            "nonprofit", "customer-stories", "security", "login", "join"
+        )
+        return exceptions.joinToString("|")
     }
 }
