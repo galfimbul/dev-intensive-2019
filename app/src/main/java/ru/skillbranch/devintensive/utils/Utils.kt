@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
 import android.content.res.Resources
 
 object Utils {
@@ -14,7 +15,7 @@ object Utils {
 
     fun transliteration(payload: String, divider: String = " "): String {
 
-        var letter: String = ""
+        var string = payload.trim()
         var result = StringBuilder()
         val translit = mapOf(
             "а" to "a",
@@ -53,18 +54,17 @@ object Utils {
         )
         if (payload.trim().isNullOrEmpty()) return ""
         else {
-
-            for (symbol in 0..payload.length - 1) {
-                if ("${payload[symbol]}" in translit) {
-                    result.append(translit.get("${payload[symbol]}"))
-                } else if ("${payload[symbol].toLowerCase()}" in translit) {
-                    result.append(translit.get("${payload[symbol].toLowerCase()}")?.capitalize())
-                } else if (!translit.containsValue("${payload[symbol].toLowerCase()}")) {
+            for (symbol in 0..string.length - 1) {
+                if(string[symbol].isWhitespace()){
                     result.append(divider)
-                } else if (translit.containsValue("${payload[symbol].toLowerCase()}")) {
-                    result.append("${payload[symbol]}")
-                }
-
+                }else
+                if ("${string[symbol]}" in translit) {
+                    result.append(translit.get("${string[symbol]}"))
+                } else if ("${string[symbol].toLowerCase()}" in translit) {
+                    result.append(translit.get("${string[symbol].toLowerCase()}")?.capitalize())
+                } else if (translit.containsValue("${string[symbol].toLowerCase()}")) {
+                    result.append("${string[symbol]}")
+                } else{result.append("${string[symbol]}")}
             }
 
             return result.toString()
@@ -92,5 +92,8 @@ object Utils {
 
     fun convertPixelsToDp(pixels:Int):Int{
         return pixels/Resources.getSystem().displayMetrics.density.toInt()
+    }
+    fun convertSpToPx(context: Context, sp: Int): Int {
+        return sp * context.resources.displayMetrics.scaledDensity.toInt()
     }
 }
