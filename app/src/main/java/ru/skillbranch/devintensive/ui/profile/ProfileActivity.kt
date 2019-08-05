@@ -57,7 +57,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
-        // TODO update repo error
+        viewModel.getRepositoryState().observe(this, Observer { updateRepository(it) })
     }
 
     private fun updateTheme(mode: Int) {
@@ -72,6 +72,10 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
         updateAvatar(profile)
+    }
+    private fun updateRepository(isError: Boolean) {
+        wr_repository.isErrorEnabled = isError
+        wr_repository.error = if (isError) "Невалидный адрес репозитория" else null
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -90,6 +94,9 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
+            if(wr_repository.isErrorEnabled){
+                wr_repository.editText!!.text.clear()
+            }
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
@@ -104,10 +111,7 @@ class ProfileActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s!!.isEmpty())
-                    else
-                if (!s!!.matches(Regex("^(https:\\/\\/)?(www\\.)?(github\\.com\\/)(?!(${getRegexExceptions()})(?=\\/|\$))[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}(\\/)?\$"))){
-                 wr_repository.error = "Невалидный адрес репозитория"}
+                viewModel.setRepositoryState(!Utils.isRepoValid(s.toString()))
             }
         })
     }
@@ -158,11 +162,5 @@ class ProfileActivity : AppCompatActivity() {
         val initials = Utils.toInitials(profile.firstName, profile.lastName)
         iv_avatar.createAvatar(initials, Utils.convertSpToPx(this, 48), theme)
     }
-    private fun getRegexExceptions(): String {
-        val exceptions = arrayOf(
-            "enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing",
-            "nonprofit", "customer-stories", "security", "login", "join"
-        )
-        return exceptions.joinToString("|")
-    }
+
 }

@@ -15,6 +15,7 @@ class ProfileViewModel : ViewModel() {
     private val repository : PreferencesRepository = PreferencesRepository
     private val profileData = MutableLiveData<Profile>()
     private val appTheme = MutableLiveData<Int>()
+    private val repositoryState = MutableLiveData<Boolean>()
 
     init {
         Log.d("M_ProfileViewModel","init view model")
@@ -44,5 +45,10 @@ class ProfileViewModel : ViewModel() {
             appTheme.value = AppCompatDelegate.MODE_NIGHT_YES
         }
         repository.saveAppTheme(appTheme.value!!)
+    }
+    fun getRepositoryState(): LiveData<Boolean> = repositoryState
+    fun setRepositoryState(state:Boolean){
+        repositoryState.value = state
+
     }
 }

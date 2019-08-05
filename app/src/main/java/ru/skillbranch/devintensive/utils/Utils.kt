@@ -96,4 +96,13 @@ object Utils {
     fun convertSpToPx(context: Context, sp: Int): Int {
         return sp * context.resources.displayMetrics.scaledDensity.toInt()
     }
+    fun isRepoValid(link:String):Boolean{
+                    return (link!!.isEmpty())||link!!.matches(Regex("^(https:\\/\\/)?(www\\.)?(github\\.com\\/)(?!(${getRegexExceptions()})(?=\\/|\$))[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}(\\/)?\$"))}
+    fun getRegexExceptions(): String {
+        val exceptions = arrayOf(
+            "enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing",
+            "nonprofit", "customer-stories", "security", "login", "join"
+        )
+        return exceptions.joinToString("|")
+    }
 }
