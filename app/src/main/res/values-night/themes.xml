@@ -24,5 +24,6 @@
         <item name="counterColor">@color/color_gray_dark</item>
         <item name="dataColor">@color/color_gray</item>
         <item name="swipeColor">@color/swipe_color_night</item>
+        <item name="indicatorColor">@color/swipe_color_night</item>
     </style>
 </resources>

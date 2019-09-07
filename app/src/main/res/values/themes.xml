@@ -21,6 +21,7 @@
         <item name="counterColor">@color/color_indicator</item>
         <item name="dataColor">@color/color_gray_dark</item>
         <item name="swipeColor">@color/color_primary_dark</item>
+        <item name="indicatorColor">@color/green</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">

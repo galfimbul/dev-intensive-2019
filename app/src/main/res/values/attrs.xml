@@ -15,6 +15,7 @@
     <attr name="counterColor" format="reference"/>
     <attr name="dataColor" format="reference"/>
     <attr name="swipeColor" format="reference"/>
+    <attr name="indicatorColor" format="reference"/>
 
 
     <declare-styleable name="CircleImageView">
