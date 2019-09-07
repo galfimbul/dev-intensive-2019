@@ -7,6 +7,16 @@
     <attr name="colorAccentedSurface" format="reference"/>
     <attr name="colorDivider" format="reference"/>
     <attr name="colorIcon" format="reference"/>
+    <attr name="toolbarColor" format="reference"/>
+    <attr name="bgColor" format="reference"/>
+    <attr name="archiveBgColor" format="reference"/>
+    <attr name="titleColor" format="reference"/>
+    <attr name="messageColor" format="reference"/>
+    <attr name="counterColor" format="reference"/>
+    <attr name="dataColor" format="reference"/>
+    <attr name="swipeColor" format="reference"/>
+
+
     <declare-styleable name="CircleImageView">
         <attr name="cv_borderColor" format="color"/>
         <attr name="cv_borderWidth" format="dimension"/>

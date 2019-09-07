@@ -43,6 +43,7 @@ class CircleImageView @JvmOverloads constructor(
             )
             attrsValues.recycle()
         }
+        //createSimpleAvatar(context.theme)
     }
 
     fun getBorderWidth(): Int = Utils.convertPixelsToDp(borderWidth)
@@ -65,14 +66,14 @@ class CircleImageView @JvmOverloads constructor(
     }
 
 
-    private fun createSimpleAvatar(theme: Resources.Theme): Bitmap {
+    fun createSimpleAvatar(theme: Resources.Theme): Bitmap {
         val cy = layoutParams.height
         val cx = layoutParams.width
         val image = Bitmap.createBitmap(cx, cy, Bitmap.Config.ARGB_8888)
         val color = TypedValue()
         theme.resolveAttribute(ru.skillbranch.devintensive.R.attr.colorAccent, color, true)
         val canvas = Canvas(image)
-        canvas.drawColor(color.data)
+        canvas.drawColor(Color.RED)
         canvas.drawBitmap(image, 0f, 0f, null)
         return image
     }
@@ -157,6 +158,11 @@ class CircleImageView @JvmOverloads constructor(
         drawable.draw(canvas)
 
         return bitmap
+    }
+
+    fun setInitials(initials: String) {
+        createTextAvatar(initials,20,context.theme)
+
     }
 
 }

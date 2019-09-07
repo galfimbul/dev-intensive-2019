@@ -22,6 +22,7 @@ companion object{
     override fun onCreate() {
         super.onCreate()
         PreferencesRepository.getAppTheme().also {
+            //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             AppCompatDelegate.setDefaultNightMode(it)
         }
         //TODO call once when application created

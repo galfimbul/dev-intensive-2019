@@ -29,6 +29,6 @@ fun Activity.isKeyboardClosed(): Boolean {
     /*val  r = Rect()
     val root = this.window.decorView
     root.getWindowVisibleDisplayFrame(r)
-    return root.height-r.bottom==0*/
+    return root.height-r.bottom_up==0*/
     return this.isKeyboardOpen().not()
 }
