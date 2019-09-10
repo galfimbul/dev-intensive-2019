@@ -33,7 +33,7 @@ object ChatRepository {
         chats.value = copy
     }
 
-    private fun updateArchiveData(copy : MutableList<Chat>) { // туда же
+    private fun updateArchiveData(copy : MutableList<Chat>) {
         var hasArhived = false
         var unreadableMessageCount = 0
         var lastMessage: BaseMessage? = null
@@ -50,7 +50,6 @@ object ChatRepository {
             }
         }
         val ind = copy.indexOfFirst { it.id == "-1" }
-
         lastArchiveMessage.value = lastMessage
         unreadableArchiveMessageCount.value = unreadableMessageCount
 

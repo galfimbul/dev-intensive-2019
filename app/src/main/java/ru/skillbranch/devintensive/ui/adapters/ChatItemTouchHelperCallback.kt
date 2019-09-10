@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -64,14 +65,17 @@ class ChatItemTouchHelperCallback(
     ) {
         if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
             val itemView = viewHolder.itemView
+            var icon = itemView.resources.getDrawable(R.drawable.ic_archive_black_24dp,itemView.context.theme)
+            if(recyclerView.id ==R.id.rv_archive_list){
+                icon = itemView.resources.getDrawable(R.drawable.ic_unarchive_black_24dp,itemView.context.theme)
+            }
             drawBackground(canvas,itemView,dX)
-            drawIcon(canvas,itemView,dX)
+            drawIcon(canvas,itemView,dX,icon)
         }
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-    private fun drawIcon(canvas: Canvas, itemView: View, dX: Float) {
-        val icon = itemView.resources.getDrawable(R.drawable.ic_archive_black_24dp,itemView.context.theme)
+    private fun drawIcon(canvas: Canvas, itemView: View, dX: Float,icon:Drawable) {
         val iconSize = itemView.resources.getDimensionPixelSize(R.dimen.icon_size)
         val space = itemView.resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
 

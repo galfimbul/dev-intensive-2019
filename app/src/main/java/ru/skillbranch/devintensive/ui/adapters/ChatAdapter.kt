@@ -2,6 +2,7 @@ package ru.skillbranch.devintensive.ui.adapters
 
 import android.graphics.Color
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
 import android.view.View
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.item_chat_group.tv_message_group
 import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.App
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.setDecoration
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.custom.CircleImageView
@@ -89,11 +91,11 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
 
     inner class SingleViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            setBgColor(itemView)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            setBgColor(itemView)
         }
 
 
@@ -128,13 +130,20 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
         }
     }
 
+    private fun setBgColor(itemView:View) {
+        val theme = App.applicationContext().theme
+        val backgroundColor = TypedValue()
+        theme.resolveAttribute(R.attr.bgColor, backgroundColor, true)
+        itemView.setBackgroundColor(backgroundColor.data)
+    }
+
     inner class GroupViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            setBgColor(itemView)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            setBgColor(itemView)
         }
 
 
